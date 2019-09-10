@@ -1,0 +1,17 @@
+h3 {
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    margin: 0;
+}
+
+.desc {
+    text-align:center;
+}
+
+.details {
+    display: flex;
+    justify-content: space-evenly;
+}

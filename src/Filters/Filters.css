@@ -1,0 +1,5 @@
+.filters {
+    background-color: lightgrey;
+    display:flex;
+    justify-content: center;
+}

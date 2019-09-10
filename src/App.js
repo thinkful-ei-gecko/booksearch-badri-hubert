@@ -1,11 +1,20 @@
 import React from 'react';
+import SearchForm from './SearchForm/SearchForm'
+import Filters from './Filters/Filters'
+import SearchResults from './SearchResults/SearchResults'
+import './App.css'
 
-function App() {
-  return (
-    <main className='App'>
-      {/* content goes here */}
-    </main>
-  );
+export default class App extends React.Component{
+  render() {
+    return (
+        <main className='App'>
+        <header>
+          <h1>Google Book Search</h1>
+          <SearchForm />
+          <Filters />
+        </header>
+        <SearchResults />
+      </main>
+    );
+  }
 }
-
-export default App;
