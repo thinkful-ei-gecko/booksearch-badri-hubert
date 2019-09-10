@@ -28,9 +28,9 @@ export default class App extends React.Component{
   //Updates search results with book titles
   handleSearchFormSubmit = (e) => {
     e.preventDefault();
-
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}`;
-
+    let url = '';
+    this.state.bookType === '' ? url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}` : url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}&filter=${this.state.bookType}`; 
+    console.log(this.state.bookType);
     fetch(url)
       .then(res => {
         if(!res.ok) {
@@ -59,30 +59,14 @@ export default class App extends React.Component{
     this.setState({
       printType: e.target.value
     })
-    // const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}`;
-
-    // fetch(url)
-    //   .then(res => {
-    //     if(!res.ok) {
-    //       throw new Error('Something went wrong, please try again!')
-    //     }
-    //     return res;
-    //   })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data)
-    //     this.setState({
-    //       searchResults: data.items,
-    //       error: null
-    //     })
-    //   })
-    //   .catch(err => {
-    //     this.setState({
-    //       error: err.message
-    //     })
-    //   })
   }
 
+  handleBookTypeSelection = (e) => {
+    e.preventDefault();
+    this.setState({
+      bookType: e.target.value
+    })
+  }
   
   render() {
     return (
@@ -93,7 +77,8 @@ export default class App extends React.Component{
             searchTerm={this.handleSearchFormSubmit}
             searchChange={this.handleSearchTermChange}
           />
-          <Filters printTypeSelection={this.handlePrintTypeSelection}/>
+          <Filters printTypeSelection={this.handlePrintTypeSelection}
+                   bookTypeSelection={this.handleBookTypeSelection}/>
         </header>
         <SearchResults 
           searchResults={this.state.searchResults}

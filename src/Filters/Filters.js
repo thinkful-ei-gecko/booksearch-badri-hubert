@@ -8,7 +8,7 @@ export default class Filters extends React.Component {
         return (
             <div className='filters'>
                 <PrintType printTypeSelection={this.props.printTypeSelection}/>
-                <BookType />
+                <BookType bookTypeSelection={this.props.bookTypeSelection}/>
             </div>
         )
     }
