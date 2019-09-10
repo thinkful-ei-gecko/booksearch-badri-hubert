@@ -11,57 +11,24 @@ export default class App extends React.Component{
     this.state = {
       searchResults: [],
       searchTerm: '',
-      printType: '',
+      printType: 'all',
       bookType: '',
       error: null
     }
   };
 
-  //Updates search results with book titles
-  handleSearchFormSubmit = (e) => {
-    e.preventDefault();
-    console.log(e.target.search.value)
-    this.setState({
-      searchTerm: e.target.search.value
-    })
-
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${e.target.search.value}`;
-    // const options = {
-    //   method: 'GET',
-    //   headers: {
-    //     "Authorization": "Bearer AIzaSyCgUlXrt3FPA9OpISD8OeB5tDZytZ4I14Y",
-    //     "Content-Type": "application/json"
-    //   }
-    // } 
-
-    fetch(url)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('Something went wrong, please try again!')
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        this.setState({
-          searchResults: data.items,
-          error: null
-        })
-      })
-      .catch(err => {
-        this.setState({
-          error: err.message
-        })
+  handleSearchTermChange = (e) => {
+    console.log(e.target.value)
+    e.preventDefault()
+      this.setState({
+        searchTerm: e.target.value
       })
   }
 
-  handlePrintTypeSelection = (e) => {
-    console.log(e.target.printType);
+  //Updates search results with book titles
+  handleSearchFormSubmit = (e) => {
     e.preventDefault();
-    this.setState({
-      printType: e.target.printType.value
-    })
+
     const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}`;
 
     fetch(url)
@@ -86,6 +53,36 @@ export default class App extends React.Component{
       })
   }
 
+  handlePrintTypeSelection = (e) => {
+    console.log(e.target.value);
+    e.preventDefault();
+    this.setState({
+      printType: e.target.value
+    })
+    // const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}`;
+
+    // fetch(url)
+    //   .then(res => {
+    //     if(!res.ok) {
+    //       throw new Error('Something went wrong, please try again!')
+    //     }
+    //     return res;
+    //   })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data)
+    //     this.setState({
+    //       searchResults: data.items,
+    //       error: null
+    //     })
+    //   })
+    //   .catch(err => {
+    //     this.setState({
+    //       error: err.message
+    //     })
+    //   })
+  }
+
   
   render() {
     return (
@@ -94,6 +91,7 @@ export default class App extends React.Component{
           <h1>Google Book Search</h1>
           <SearchForm 
             searchTerm={this.handleSearchFormSubmit}
+            searchChange={this.handleSearchTermChange}
           />
           <Filters printTypeSelection={this.handlePrintTypeSelection}/>
         </header>
