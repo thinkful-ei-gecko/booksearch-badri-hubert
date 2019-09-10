@@ -32,7 +32,7 @@ export default class App extends React.Component{
     //     "Authorization": "Bearer AIzaSyCgUlXrt3FPA9OpISD8OeB5tDZytZ4I14Y",
     //     "Content-Type": "application/json"
     //   }
-    // }
+    // } 
 
     fetch(url)
       .then(res => {
@@ -56,6 +56,37 @@ export default class App extends React.Component{
       })
   }
 
+  handlePrintTypeSelection = (e) => {
+    console.log(e.target.printType);
+    e.preventDefault();
+    this.setState({
+      printType: e.target.printType.value
+    })
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}`;
+
+    fetch(url)
+      .then(res => {
+        if(!res.ok) {
+          throw new Error('Something went wrong, please try again!')
+        }
+        return res;
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.setState({
+          searchResults: data.items,
+          error: null
+        })
+      })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        })
+      })
+  }
+
+  
   render() {
     return (
         <main className='App'>
@@ -64,7 +95,7 @@ export default class App extends React.Component{
           <SearchForm 
             searchTerm={this.handleSearchFormSubmit}
           />
-          <Filters />
+          <Filters printTypeSelection={this.handlePrintTypeSelection}/>
         </header>
         <SearchResults 
           searchResults={this.state.searchResults}

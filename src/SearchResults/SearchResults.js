@@ -8,15 +8,15 @@ export default class SearchResults extends React.Component {
             <div className='searchResult' key={idx}>
             <h3>{book.volumeInfo.title}</h3>
             <div className='details'>
-                <div className='img'>image</div>
+                <div className='img'><img src={book.volumeInfo.imageLinks.smallThumbnail} alt={book.volumeInfo.title}/></div>
                 <p className='subtitle'>
-                   Author 
-                </p>
+                   Author(s): {book.volumeInfo.authors}
+                </p> <br />
                 <p className='subtitle'>
-                    Price
+                    Price: {book.saleInfo.saleability === 'FOR_SALE' ? book.saleInfo.listPrice.amount + book.saleInfo.listPrice.currencyCode : 'Not Available for Sale'}
                 </p>
                 <p className='desc'>
-                    Description
+                    {book.volumeInfo.description}
                 </p>
                 </div>
         </div>
